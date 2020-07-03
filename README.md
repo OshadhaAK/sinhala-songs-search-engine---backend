@@ -12,3 +12,28 @@
     * http://localhost:8080/search/getSongsByName?song=මල් මුතු දා මේ
     * http://localhost:8080/search/getSongsByArtist?artist=විජය කුමාරතුංග
 
+
+## Lyrics and Metadata
+
+* Title
+* Artist
+* Genre
+* Lyrics
+* Music
+* Number of views
+* Number of shares
+
+## Data
+
+* Original data - originalsongs.csv
+* Processed data - processedsongs.csv
+
+## Main Usecases
+* Search by songs name/ artist name/ lyrics etc
+* Multi Search
+* Sorted Range Queries
+* Filtering search results based on keywords (faceted search)
+
+## Indexing techniques
+Elasticsearch analysers were used
+
