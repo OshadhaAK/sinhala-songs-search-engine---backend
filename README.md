@@ -25,8 +25,8 @@
 
 ## Data
 
-* Original data - songsCorpus.csv
-* Processed data - processedsongs.csv
+* Original data - songsCorpus.csv in **Scraping git repo**
+* Processed data - processedsongs.csv **Scraping git repo**
 
 ## Main Usecases
 * Search by songs name/ artist name/ lyrics etc
