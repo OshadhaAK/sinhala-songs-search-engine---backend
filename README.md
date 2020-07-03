@@ -25,7 +25,7 @@
 
 ## Data
 
-* Original data - originalsongs.csv
+* Original data - songsCorpus.csv
 * Processed data - processedsongs.csv
 
 ## Main Usecases
