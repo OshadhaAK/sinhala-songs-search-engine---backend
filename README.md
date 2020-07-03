@@ -37,3 +37,8 @@
 ## Indexing techniques
 Elasticsearch analysers were used
 
+## Scraping git repo
+* https://github.com/OshadhaAK/Scrapy.git
+
+## FrontEnd git repo
+* https://github.com/OshadhaAK/AWS_ES_FrontEnd.git
