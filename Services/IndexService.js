@@ -211,4 +211,4 @@ const createIndex = async (searchTxt) => {
 // };
 
 exports.createIndex = createIndex;
-exports.insertData = insertData;
+// exports.insertData = insertData;
