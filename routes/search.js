@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { getSuggestedSongsByArtist, getSuggestedSongsByName, getSuggestedSongsByLyrics, getSuggestedSongsByNameAndLyrics } = require ('../Services/SearchService')
+const { getSuggestedSongsByArtist, getSuggestedSongsByName, getSuggestedSongsByLyrics, getSuggestedSongsByNameAndLyrics, getSuggestedSongsByArtistAndSort } = require ('../Services/SearchService')
 
 router.get("/", async (req,res) => {
     try {
@@ -73,6 +73,20 @@ router.get("/getSongsByNameAndLyrics", async (req,res,next) => {
 });
 
 
-
+router.get("/getSongsByArtistAndSort", async (req,res,next) => {
+    
+    let searchTxtName  = req.query.artist;    
+    searchTxtName = searchTxtName.trim();
+    let searchTxtNum  = req.query.num;    
+    searchTxtNum = searchTxtNum.trim();
+    try {
+        let results = await getSuggestedSongsByArtistAndSort(searchTxtName,searchTxtNum);
+        res.data = results;
+        next();
+        
+    }catch (err) {
+        res.status(500).json({ message: err });
+    }
+});
 
 module.exports = router;

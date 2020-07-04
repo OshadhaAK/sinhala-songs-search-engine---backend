@@ -11,17 +11,20 @@
     * http://localhost:8080/search/getSongsByNameAndLyrics?artist=ජයන්ත රත්නායක ගැයූ ගී&lyrics=සිහින් සරින් තව විටෙන ළය නිවයි
     * http://localhost:8080/search/getSongsByName?song=මල් මුතු දා මේ
     * http://localhost:8080/search/getSongsByArtist?artist=විජය කුමාරතුංග
+    *  http://localhost:8080/search/getSongsByArtistAndSort?artist=විජය කුමාරතුංග&num=10
 
 
 ## Lyrics and Metadata
 
-* Title
+* Song
 * Artist
 * Genre
 * Lyrics
 * Music
-* Number of views
-* Number of shares
+* Number of visits
+* Posted by
+* Guitar key
+* Writer
 
 ## Data
 
@@ -40,5 +43,3 @@ Elasticsearch analysers were used
 ## Scraping git repo
 * https://github.com/OshadhaAK/Scrapy.git
 
-## FrontEnd git repo
-* https://github.com/OshadhaAK/AWS_ES_FrontEnd.git

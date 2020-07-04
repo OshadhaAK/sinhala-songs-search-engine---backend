@@ -155,9 +155,46 @@ const getSuggestedSongsByNameAndLyrics = async (searchTxtName,searchTxtLyrics) =
     return results;
 };
 
+const getSuggestedSongsByArtistAndSort = async (searchTxtName,searchTxtNum) => {
+    console.log(searchTxtName,searchTxtNum)
+    let queryClause = {
+        "query": {
+            "multi_match": {
+                "query":searchTxtName, 
+                "fuzziness": "AUTO",
+                "fields": ["artist"],
+                  "operator": "or"
+            }
+        },
+        "collapse": {
+            "field": "artist",
+            "size" : searchTxtNum
+        },
+        "sort": ["visits"]
+    }
+
+    let reqObject = {
+        url:"http://localhost:9200/lyricalsongs/_search",
+        json:queryClause
+    };
+
+    let results = {}
+
+    try{
+        results = await hitElastic(reqObject);
+        console.log("results:",results)
+    }catch(e){
+        results = {
+            error : e
+        }
+    }
+
+    return results;
+};
 
 
 exports.getSuggestedSongsByArtist = getSuggestedSongsByArtist;
 exports.getSuggestedSongsByName = getSuggestedSongsByName;
 exports.getSuggestedSongsByLyrics = getSuggestedSongsByLyrics;
 exports.getSuggestedSongsByNameAndLyrics = getSuggestedSongsByNameAndLyrics;
+exports.getSuggestedSongsByArtistAndSort = getSuggestedSongsByArtistAndSort;

@@ -27,22 +27,22 @@ router.put("/indices", async (req, res, next) => {
     }
 });
 
-router.post("/insert", async (req, res, next) => {
-    let searchTxt = req.query.index;
-    searchTxt = searchTxt.trim();
+// router.post("/insert", async (req, res, next) => {
+//     let searchTxt = req.query.index;
+//     searchTxt = searchTxt.trim();
     
-    try {
-        let results = await insertData(searchTxt);
-        res.data = results;
+//     try {
+//         let results = await insertData(searchTxt);
+//         res.data = results;
        
-        next();
-        res.status(200).json({message: searchTxt})
+//         next();
+//         res.status(200).json({message: searchTxt})
         
-    }catch (err) {
-        res.status(500).json({ message: err });
-    }
+//     }catch (err) {
+//         res.status(500).json({ message: err });
+//     }
 
-});
+// });
 
 
 module.exports = router;

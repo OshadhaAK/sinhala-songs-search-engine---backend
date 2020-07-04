@@ -19,63 +19,145 @@ const hitElastic = (options) => {
 const createIndex = async (searchTxt) => {
 
     let queryClause = {
-        
-            "settings": {
-              "analysis": {
-                "filter": {
-                  "autocomplete_filter": {
-                    "type": "edge_ngram",
-                    "min_gram": "1",
-                    "max_gram": "40"
-                  }
-                },
-                "analyzer": {
-                  "pk_custom_analyzer": {
-                    "type":      "custom", 
-                    "tokenizer": "standard",
-                    "char_filter": [
-                      "html_strip"
-                    ],
-                    "filter": [
-                      "lowercase"
-                    ]
+      "settings": {
+          "analysis": {
+              "analyzer": {
+                  "sinhala-ngram": {
+                      "type": "custom",
+                      "tokenizer": "icu_tokenizer",
+                      "char_filter": ["punc_char_filter"],
+                      "token_filter": [
+                          "edge_n_gram_filter"
+                      ]
                   },
-                  "autocomplete": {
-                    "filter": ["lowercase", "autocomplete_filter"],
-                    "type": "custom",
-                    "tokenizer": "whitespace"
+                  "sinhala": {
+                      "type": "custom",
+                      "tokenizer": "icu_tokenizer",
+                      "char_filter": ["punc_char_filter"]
+                  },
+                  "english":{
+                      "type": "custom",
+                      "tokenizer": "classic",
+                      "char_filter": ["punc_char_filter"],
+                  },
+                  "sinhala-search": {
+                      "type": "custom",
+                      "tokenizer": "standard",
+                      "char_filter": ["punc_char_filter"]
+                  },
+              },
+              "char_filter": {
+                  "punc_char_filter": {
+                      "type": "mapping",
+                      "mappings": [".=>", "|=>", "-=>", "_=>", "'=>", "/=>", ",=>", "?=>"]
                   }
-                }
+              },
+              "token_filter": {
+                  "edge_n_gram_filter": {
+                      "type": "edge_ngram",
+                      "min_gram": "2",
+                      "max_gram": "20",
+                      "side": "front"
+                  }
               }
-            },
-            "mappings": {
-              "properties": {
-                "speaker": {
-                  "type": "keyword"
-                },
-                "play_name": {
+          }
+      },
+      "mappings": {
+          "properties": {
+              "id": {
+                  "type": "long"
+              },
+              "song": {
                   "type": "text",
-                  "analyzer": "pk_custom_analyzer"
-                },
-                "line_id": {
-                  "type": "integer"
-                },
-                "speech_number": {
-                  "type": "integer"
-                },
-                "line_number": {
-                  "type": "keyword"
-                },
-                "text_entry": {
+                  "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          },
+                  },
+                  "analyzer": "sinhala-ngram",
+                  "search_analyzer": "sinhala-search"
+              },
+              "artist": {
                   "type": "text",
-                  "analyzer": "autocomplete"
-                }
+                  "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          },
+                  },
+                  "analyzer": "sinhala-ngram",
+                  "search_analyzer": "sinhala-search"
+              },
+              "genre": {
+                  "type": "text",
+                  "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          },
+                  },
+                  "analyzer": "sinhala-ngram",
+                  "search_analyzer": "sinhala-search"
+              },
+              "writer": {
+                  "type": "text",
+                  "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          },
+                  },
+                  "analyzer": "sinhala-ngram",
+                  "search_analyzer": "sinhala-search"
+              },
+              "music": {
+                  "type": "text",
+                  "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          },
+                  },
+                  "analyzer": "sinhala-ngram",
+                  "search_analyzer": "sinhala-search"
+              },
+              "guitarKey": {
+                  "type": "text",
+                  "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          },
+                  },
+              },
+              "postedBy": {
+                  "type": "text",
+                  "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          },
+                  },
+              },
+              "lyrics": {
+                  "type": "text",
+                  "fields": {
+                          "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                          },
+                  },
+                  "analyzer": "sinhala",
+                  "search_analyzer": "sinhala-search"
+              },
+              "visits": {
+                  "type": "long"
               }
-            }
-          
-        
-
-    }
+          }
+      }
+  }
+  
 
     let reqObject = {
         url:"http://localhost:9200/"+searchTxt,
@@ -96,38 +178,37 @@ const createIndex = async (searchTxt) => {
     return results;
 };
 
-const insertData = async (searchTxt) => {
-    console.log(searchTxt)
-    let queryClause = {
-        "type": "line",
-        "line_id": 111381,
-        "play_name": "A Winters Tale",
-        "speech_number": 38,
-        "line_number": "5.3.169",
-        "speaker": "LEONTES",
-        "text_entry": "A prayer upon her grave. Ill not seek far--"
+// const insertData = async (searchTxt) => {
+//     console.log(searchTxt)
+//     let queryClause = {
+//         "type": "line",
+//         "line_id": 111381,
+//         "play_name": "A Winters Tale",
+//         "speech_number": 38,
+//         "line_number": "5.3.169",
+//         "speaker": "LEONTES",
+//         "text_entry": "A prayer upon her grave. Ill not seek far--"
         
-    }
+//     }
 
-    let reqObject = {
-        url:"http://localhost:9200/"+searchTxt+"/_bulk?pretty",
-        headers: 'Content-Type: application/x-ndjson'
-    };
+//     let reqObject = {
+//         url:"http://localhost:9200/"+searchTxt+"/_bulk?pretty",
+//         headers: 'Content-Type: application/x-ndjson'
+//     };
 
-    let results = {}
+//     let results = {}
 
-    try{
-        results = await hitElastic(reqObject);
-        console.log("results:",results)
-    }catch(e){
-        results = {
-            error : e,
-            message: "sfawv"
-        }
-    }
+//     try{
+//         results = await hitElastic(reqObject);
+//         console.log("results:",results)
+//     }catch(e){
+//         results = {
+//             error : e
+//         }
+//     }
 
-    return results;
-};
+//     return results;
+// };
 
 exports.createIndex = createIndex;
 exports.insertData = insertData;
